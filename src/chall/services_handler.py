@@ -23,7 +23,6 @@ def tester_present(pkt):
 def disgnostic_session_control(pkt):
     from scapy.contrib.automotive.uds import UDS_DSC, UDS_DSCPR
 
-    gl.CURRENT_SESSION
     new_session = pkt[UDS][UDS_DSC].diagnosticSessionType
     # If new session is the same as the current one do nothing, just reply with positive response
     if new_session == gl.CURRENT_SESSION:
@@ -43,6 +42,7 @@ def disgnostic_session_control(pkt):
             gl.BUSY = False
                      
         gl.CURRENT_SESSION = new_session
+        config.DATA_IDs[61746] = (int.to_bytes(gl.CURRENT_SESSION, 1, "big"), False, True)
         gl.AUTH = False
         send_msg(UDS()/UDS_DSCPR(diagnosticSessionType=gl.CURRENT_SESSION))
     elif new_session in config.DSC_SESSIONS:
@@ -55,15 +55,16 @@ def disgnostic_session_control(pkt):
 def read_data_by_identifier(pkt):
     from scapy.contrib.automotive.uds import UDS_RDBI, UDS_RDBIPR
     did = pkt[UDS][UDS_RDBI].identifiers[0]
-    session_did = config.DATA_ID[gl.CURRENT_SESSION]
-    if did in session_did:
+    #session_did = config.DATA_ID[gl.CURRENT_SESSION]
+    if did in config.DIDs_PER_SESSION[gl.CURRENT_SESSION]:
         # If d_id can be read without auth
-        if not session_did[did][1]:
+        session_did = config.DATA_IDs[did]
+        if not session_did[1]:
             # session_did[did][0]
-            send_msg(UDS()/UDS_RDBIPR(dataIdentifier=did)/Raw(session_did[did][0]))
+            send_msg(UDS()/UDS_RDBIPR(dataIdentifier=did)/Raw(session_did[0]))
             return
-        elif session_did[did][1] and gl.AUTH:
-            send_msg(UDS()/UDS_RDBIPR(dataIdentifier=did)/Raw(session_did[did][0]))
+        elif session_did[1] and gl.AUTH:
+            send_msg(UDS()/UDS_RDBIPR(dataIdentifier=did)/Raw(session_did[0]))
         else:
             send_msg(UDS()/UDS_NR(requestServiceId=0x22, negativeResponseCode=0x33))
     else:
@@ -170,3 +171,23 @@ def read_memory_by_address(pkt):
     gl.BUSY = True
     send_msg(UDS()/UDS_RMBAPR(dataRecord=b"".join(config.GENERATED_MEMORY[memory_address:memory_address+memory_size])))
     gl.BUSY = False
+
+def write_data_by_identifier(pkt):
+    from scapy.contrib.automotive.uds import UDS_WDBI, UDS_WDBIPR
+    did = pkt[UDS][UDS_WDBI].dataIdentifier
+    data = pkt[UDS][UDS_WDBI].data
+
+    if 0x2E not in config.DSC_SERVICES[gl.CURRENT_SESSION]:
+        send_msg(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x7F))
+        return
+
+    if did not in config.DIDs_PER_SESSION[gl.CURRENT_SESSION]:
+        send_msg(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x31))
+        return
+
+    if config.DATA_IDs[did][2] and not gl.AUTH:
+        send_msg(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x33))
+        return
+
+    config.DATA_IDs[did] = (data, config.DATA_IDs[did][1],config.DATA_IDs[did][2])
+    send_msg(UDS()/UDS_WDBIPR(dataIdentifier=did))

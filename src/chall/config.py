@@ -5,12 +5,11 @@ from pwnlib.adb import BootloaderImage
 QUEUE_SIZE = 2
 
 DSC_SESSIONS = {1, 2, 3}
-SUPPORTED_SERVICES = {0x10, 0x11, 0x22, 0x23, 0x27, 0x3E}
-DATA_ID = { 1:{1337:(b'Not here', False), 61840: (b'DRIVESEC_CA(R)N\'T', False),61842:(b'SW:1.3.3.7', False), 61844:(b'HW:over_9000', False)},
-            2:{1337:(b'Not here', False), 31337:(os.getenv('FLAG', 'flag{tbd}').encode(), True), 32323:(b'Should put an easter egg...', True), 32324:(b'But am too lazy', True), 61842:(b'SW:0.0.0.1', False), 61844:(b'HW:0.0.-1', False)},
-            3:{1337:(b'Not here', False), 61836: (b'2017MMDD',False),61842:(b'SW:1.3.3.7', False), 61844:(b'HW:over_9000', False)}}
+SUPPORTED_SERVICES = {0x10, 0x11, 0x22, 0x23, 0x27, 0x2E, 0x3E}
+DATA_IDs = {1337:(b'Not here', False, True), 31337:(os.getenv('FLAG', 'flag{tbd}').encode(), True, True), 61746: (b'\x01',False, False), 61842:(b'SW:0.0.0.1', False, True), 61844:(b'HW:0.0.-1', False, True)}
+DIDs_PER_SESSION = {1: [1337, 61746, 61840, 61842, 61844], 2: [1337, 31337, 61746, 61842, 61844], 3: [1337, 61746, 61836, 61842, 61844]}
 MEMORY = {0: b'\x90'*256 + b'Is this a leak? Should we call a plumber? ', 2000: b'Drivesec'}
-DSC_SERVICES = {1:{0x10, 0x22, 0x3E}, 2:{0x10, 0x11, 0x22, 0x23, 0x27, 0x3E}, 3:{0x10, 0x11, 0x22, 0x23, 0x27, 0x3E}}
+DSC_SERVICES = {1:{0x10, 0x22, 0x3E}, 2:{0x10, 0x11, 0x22, 0x23, 0x27, 0x2E, 0x3E}, 3:{0x10, 0x11, 0x22, 0x23, 0x27, 0x2E, 0x3E}}
 ACCESSIBLE_SESSIONS = {1: [3], 2: [3], 3: [1, 2]}
 SECURITY_ACCESS_LEVELS = {2: [9], 3: [1,3]}
 DEFAULT_SESSION = 1

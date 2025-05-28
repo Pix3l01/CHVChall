@@ -10,7 +10,8 @@ handlers = {0x10: disgnostic_session_control,
             0x11: ecu_reset,
             0x22: read_data_by_identifier,
             0x23: read_memory_by_address,
-            0x27: security_access, 
+            0x27: security_access,
+            0x2E: write_data_by_identifier,
             0x3e: tester_present}
 q = queue.Queue(config.QUEUE_SIZE)
 
