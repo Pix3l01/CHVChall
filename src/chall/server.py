@@ -24,7 +24,9 @@ def worker():
         pkt = q.get()
         try:
             handlers[pkt[UDS].service](pkt)
-        except:
+        except Exception as e:
+            # TODO: Use proper logging
+            print(repr(e), flush=True)
             sock = ISOTPNativeSocket(config.IFACE, config.TX_ID, config.RX_ID, basecls=UDS, padding=True, fd=False)
             sock.send(UDS()/UDS_NR( requestServiceId=pkt[UDS].service, negativeResponseCode=0x11))
             sock.close()
@@ -37,6 +39,7 @@ def inactivity():
             gl.TIME_ELAPSED += 1
             if gl.TIME_ELAPSED > config.SESSION_RESET_TIMEOUT:
                 gl.CURRENT_SESSION = 1
+                config.DATA_IDs[61746] = (int.to_bytes(gl.CURRENT_SESSION, 1, "big"), False, False)
                 gl.AUTH = False
                 gl.TIME_ELAPSED = 0
         else:

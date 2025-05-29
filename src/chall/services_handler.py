@@ -42,7 +42,7 @@ def disgnostic_session_control(pkt):
             gl.BUSY = False
                      
         gl.CURRENT_SESSION = new_session
-        config.DATA_IDs[61746] = (int.to_bytes(gl.CURRENT_SESSION, 1, "big"), False, True)
+        config.DATA_IDs[61746] = (int.to_bytes(gl.CURRENT_SESSION, 1, "big"), False, False)
         gl.AUTH = False
         send_msg(UDS()/UDS_DSCPR(diagnosticSessionType=gl.CURRENT_SESSION))
     elif new_session in config.DSC_SESSIONS:
@@ -175,7 +175,7 @@ def read_memory_by_address(pkt):
 def write_data_by_identifier(pkt):
     from scapy.contrib.automotive.uds import UDS_WDBI, UDS_WDBIPR
     did = pkt[UDS][UDS_WDBI].dataIdentifier
-    data = pkt[UDS][UDS_WDBI].data
+    data = bytes(pkt[UDS][UDS_WDBI])[2:]
 
     if 0x2E not in config.DSC_SERVICES[gl.CURRENT_SESSION]:
         send_msg(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x7F))
