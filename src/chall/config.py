@@ -1,7 +1,5 @@
 import os
 
-from pwnlib.adb import BootloaderImage
-
 QUEUE_SIZE = 2
 
 DSC_SESSIONS = {1, 2, 3}
@@ -55,15 +53,20 @@ def set_session(session: bytes | int) -> None:
         session = int.to_bytes(session, 1, 'big')
     DATA_IDs[61746] = (session, False, False)
 
-def key_check(key, access_level):
-    # from global_stuff import SEED
-    # from ctypes import CDLL
-    # lib = CDLL("/chall/lib.so")
-    # gen_key = lib.seed_key(SEED.seed)
-    # if gen_key < 0:
-    #     gen_key += 2**32
-    # gen_key = gen_key.to_bytes(4, "big")
-    #
-    # return key == gen_key and access_level - 1 == SEED.level and SEED.is_valid()
 
-    return True
+def key_check(key, access_level):
+    from global_stuff import SEED
+    from ctypes import CDLL, c_uint64
+    lib = CDLL("./test.so")
+    lib.programming.restype = c_uint64
+    lib.extended.restype = c_uint64
+    if get_session() == 2:
+        gen_key = lib.programming(SEED.seed)
+    elif get_session() == 3:
+        gen_key = lib.extended(SEED.seed)
+    else:
+        return False
+
+    gen_key = gen_key.to_bytes(8, "big")
+    return key == gen_key and access_level - 1 == SEED.level and SEED.is_valid()
+    #return True
