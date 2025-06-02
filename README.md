@@ -28,7 +28,7 @@ Challenge on UDS on CAN
 - [x] Write code for SA key check
   - [x] C code
   - [x] Python code
-- [ ] Generate check function for leak
+- [x] Generate check function for leak
 - [ ] Write python code to exploit the vulnerability
   - [ ] Memory leak
   - [x] Get flag
