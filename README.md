@@ -29,8 +29,8 @@ Challenge on UDS on CAN
   - [x] C code
   - [x] Python code
 - [x] Generate check function for leak
-- [ ] Write python code to exploit the vulnerability
-  - [ ] Memory leak
+- [x] Write python code to exploit the vulnerability
+  - [x] Memory leak
   - [x] Get flag
 - [ ] Implement instancer
   - [ ] Multiple steps which I'll think about later 
