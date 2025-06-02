@@ -7,8 +7,10 @@
 #include <openssl/evp.h>
 
 static const uint8_t AES256_KEY[32] = {
-    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x20
+    0x62, 0x5d, 0x04, 0x57, 0xab, 0xaa, 0x22, 0x99, 0xa5, 0xb9, 0x9b, 0x64, 0xdb, 0x8e, 0x77, 0x38, 0x03, 0xa2, 0xc6,
+     0x79, 0x83, 0xc2, 0x4a, 0x36, 0x4a, 0x35, 0xb6, 0x96, 0xa9, 0x5b, 0xb5, 0x1b
 };
+
 int session = 3;
 
 
@@ -46,6 +48,7 @@ uint64_t programming(const uint8_t *seed) {
 uint64_t extended(const uint8_t* seed) {
     uint64_t a = 0xcbf29ce484222325;
     uint64_t b = 0x100000001b3;
+    const char c[8] = "Drivesec";
     uint64_t result = 0;
 
     for(int i = 0; i < 4; ++i) {
@@ -53,19 +56,17 @@ uint64_t extended(const uint8_t* seed) {
         a = a ^ value;
         a *= b;
     }
+
     for(int i = 3; i >= 0; --i) {
         uint8_t value = seed[i];
         a = a ^ value;
         a *= b;
     }
 
-    const char c[8] = "Drivesec";
-    printf("Original : 0x%016llX\n", (unsigned long long)a);
     for (int i = 0; i < 8; i++) {
         uint8_t byte = (a >> (56 - i * 8)) & 0xFF;
         uint8_t xored = byte ^ c[i];
         result |= ((uint64_t)xored << (56 - i * 8));
-        printf("XORing byte %d: %016llx\n", i, (unsigned long long)result);
     }
     return result;
 }
@@ -77,7 +78,6 @@ uint64_t seed_key(const uint8_t* key){
         case 3:
             return extended(key);
         default:
-            // exit with error code
             return -1;
     }
 }
