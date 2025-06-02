@@ -43,6 +43,18 @@ def generate_memory():
             i += 1
 
 
+def get_session(to_bytes: bool = False) -> int|bytes:
+    if to_bytes:
+        return DATA_IDs[61746][0]
+    else:
+        return int.from_bytes(DATA_IDs[61746][0], 'big')
+
+
+def set_session(session: bytes | int) -> None:
+    if isinstance(session, int):
+        session = int.to_bytes(session, 1, 'big')
+    DATA_IDs[61746] = (session, False, False)
+
 def key_check(key, access_level):
     # from global_stuff import SEED
     # from ctypes import CDLL

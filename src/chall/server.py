@@ -34,12 +34,11 @@ def worker():
 
 def inactivity():
     while True:
-        if gl.CURRENT_SESSION != 1 and not gl.BUSY:
+        if config.get_session() != 1 and not gl.BUSY:
             time.sleep(1)
             gl.TIME_ELAPSED += 1
             if gl.TIME_ELAPSED > config.SESSION_RESET_TIMEOUT:
-                gl.CURRENT_SESSION = 1
-                config.DATA_IDs[61746] = (int.to_bytes(gl.CURRENT_SESSION, 1, "big"), False, False)
+                config.set_session(b'\x01')
                 gl.AUTH = False
                 gl.TIME_ELAPSED = 0
         else:

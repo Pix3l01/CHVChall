@@ -25,14 +25,14 @@ def disgnostic_session_control(pkt):
 
     new_session = pkt[UDS][UDS_DSC].diagnosticSessionType
     # If new session is the same as the current one do nothing, just reply with positive response
-    if new_session == gl.CURRENT_SESSION:
-        send_msg(UDS()/UDS_DSCPR(diagnosticSessionType=gl.CURRENT_SESSION))
+    if new_session == config.get_session():
+        send_msg(UDS()/UDS_DSCPR(diagnosticSessionType=config.get_session()))
         return
 
     # Check whther the new session is accessible from the current one
-    if new_session in config.ACCESSIBLE_SESSIONS[gl.CURRENT_SESSION]:
+    if new_session in config.ACCESSIBLE_SESSIONS[config.get_session()]:
         # Simulate bootloader switch when cheanging from/to session 2
-        if new_session == 2 or gl.CURRENT_SESSION == 2:
+        if new_session == 2 or config.get_session()== 2:
             gl.BUSY = True
             start = time.time()
             while time.time() - start < config.BOOTLOADER_SWITCH_TIMEOUT:
@@ -40,11 +40,10 @@ def disgnostic_session_control(pkt):
                 gl.TIME_ELAPSED = 0 
                 time.sleep(1)
             gl.BUSY = False
-                     
-        gl.CURRENT_SESSION = new_session
-        config.DATA_IDs[61746] = (int.to_bytes(gl.CURRENT_SESSION, 1, "big"), False, False)
+
+        config.set_session(new_session)
         gl.AUTH = False
-        send_msg(UDS()/UDS_DSCPR(diagnosticSessionType=gl.CURRENT_SESSION))
+        send_msg(UDS()/UDS_DSCPR(diagnosticSessionType=config.get_session()))
     elif new_session in config.DSC_SESSIONS:
         # Session exists but is not accessible from the current one
         send_msg(UDS()/UDS_NR(requestServiceId=0x10, negativeResponseCode=0x22))
@@ -55,8 +54,8 @@ def disgnostic_session_control(pkt):
 def read_data_by_identifier(pkt):
     from scapy.contrib.automotive.uds import UDS_RDBI, UDS_RDBIPR
     did = pkt[UDS][UDS_RDBI].identifiers[0]
-    #session_did = config.DATA_ID[gl.CURRENT_SESSION]
-    if did in config.DIDs_PER_SESSION[gl.CURRENT_SESSION]:
+
+    if did in config.DIDs_PER_SESSION[config.get_session()]:
         # If d_id can be read without auth
         session_did = config.DATA_IDs[did]
         if not session_did[1]:
@@ -83,12 +82,12 @@ def security_access(pkt):
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x36))    
             return
 
-    if gl.CURRENT_SESSION not in config.SECURITY_ACCESS_LEVELS:
+    if config.get_session() not in config.SECURITY_ACCESS_LEVELS:
         send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x7F))
         return
 
     if security_level % 2 == 0:
-        if security_level - 1 not in config.SECURITY_ACCESS_LEVELS[gl.CURRENT_SESSION]:
+        if security_level - 1 not in config.SECURITY_ACCESS_LEVELS[config.get_session()]:
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x12))
             gl.SEED = None
             return
@@ -110,7 +109,7 @@ def security_access(pkt):
                 gl.TIME_ENOA_ACTIVATED = time.time()
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x35))
     else:
-        if security_level not in config.SECURITY_ACCESS_LEVELS[gl.CURRENT_SESSION]:
+        if security_level not in config.SECURITY_ACCESS_LEVELS[config.get_session()]:
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x12))
             return
         if gl.SEED is None or not gl.SEED.is_valid() or gl.SEED.level != security_level:
@@ -119,7 +118,7 @@ def security_access(pkt):
 
 def ecu_reset(pkt):
     from scapy.contrib.automotive.uds import UDS_ER, UDS_ERPR
-    if gl.CURRENT_SESSION != 2:
+    if config.get_session() != 2:
         send_msg(UDS()/UDS_NR(requestServiceId=0x11, negativeResponseCode=0x7F))
 
         return
@@ -137,7 +136,7 @@ def ecu_reset(pkt):
 
 def read_memory_by_address(pkt):
     from scapy.contrib.automotive.uds import UDS_RMBA, UDS_RMBAPR
-    if gl.CURRENT_SESSION != 3:
+    if config.get_session() != 3:
         send_msg(UDS()/UDS_NR(requestServiceId=0x23, negativeResponseCode=0x7F))
         return
     
@@ -177,11 +176,11 @@ def write_data_by_identifier(pkt):
     did = pkt[UDS][UDS_WDBI].dataIdentifier
     data = bytes(pkt[UDS][UDS_WDBI])[2:]
 
-    if 0x2E not in config.DSC_SERVICES[gl.CURRENT_SESSION]:
+    if 0x2E not in config.DSC_SERVICES[config.get_session()]:
         send_msg(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x7F))
         return
 
-    if did not in config.DIDs_PER_SESSION[gl.CURRENT_SESSION]:
+    if did not in config.DIDs_PER_SESSION[config.get_session()]:
         send_msg(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x31))
         return
 
