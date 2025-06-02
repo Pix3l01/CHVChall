@@ -25,10 +25,12 @@ Challenge on UDS on CAN
 - [x] Port basic UDS emulator
 - [x] Implement vulnerable WDBI
 - [x] Remove global variable for session tracking and only use data from the DIDs dictionary
-- [ ] Write code for SA key check
+- [x] Write code for SA key check
   - [x] C code
-  - [ ] Python code
+  - [x] Python code
 - [ ] Generate check function for leak
 - [ ] Write python code to exploit the vulnerability
+  - [ ] Memory leak
+  - [x] Get flag
 - [ ] Implement instancer
   - [ ] Multiple steps which I'll think about later 
