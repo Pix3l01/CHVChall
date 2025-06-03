@@ -34,3 +34,4 @@ Challenge on UDS on CAN
   - [x] Get flag
 - [ ] Implement instancer
   - [ ] Multiple steps which I'll think about later 
+- [ ] Useless improvements: add jokes, refactor, make it better...

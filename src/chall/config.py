@@ -27,7 +27,7 @@ def generate_memory():
     leak = b''
     with open('./leak.bin', 'rb') as f:
         leak = f.read()
-    MEMORY[1337] = b'Did you forget the keys?' + leak + b'\x00\x00\x00x86:LE:64:gcc'
+    MEMORY[1337] = b'Did you lock yourself out?\x00' + leak + b'\x00\x00\x00x86:LE:64:gcc'
 
     i = 0
     ma = max(MEMORY)
