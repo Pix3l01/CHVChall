@@ -39,7 +39,7 @@ sock.sr1(UDS()/UDS_DSC(diagnosticSessionType=3), verbose=0)
 sock.sr1(UDS()/UDS_DSC(diagnosticSessionType=2), verbose=0)
 
 # Modify DID
-sock.sr1(UDS() / UDS_WDBI(dataIdentifier=0xF132) / Raw(b'\x03'))
+sock.sr1(UDS() / UDS_WDBI(dataIdentifier=0xF132) / Raw(b'\x03'),verbose=0)
 
 # Authenticate
 pkt = sock.sr1(UDS()/UDS_SA(securityAccessType=3), verbose=0)
@@ -47,9 +47,6 @@ key = extended(pkt.securitySeed)
 key = key.to_bytes(8, "big")
 
 sock.sr1(UDS()/UDS_SA(securityAccessType=4, securityKey=key), verbose=0)
-
-# Modify DID to restore the session 2
-sock.sr1(UDS() / UDS_WDBI(dataIdentifier=0xF132) / Raw(b'\x02'))
 
 # Read data
 pkt = UDS() / UDS_RDBI(identifiers=0x7a69)
