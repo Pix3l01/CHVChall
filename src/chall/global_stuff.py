@@ -1,3 +1,6 @@
+import config
+
+CURRENT_SESSION = config.DEFAULT_SESSION
 TIME_ELAPSED = 0
 
 AUTH = False

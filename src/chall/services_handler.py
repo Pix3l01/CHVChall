@@ -82,12 +82,12 @@ def security_access(pkt):
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x36))    
             return
 
-    if config.get_session() not in config.SECURITY_ACCESS_LEVELS:
+    if config.get_session(glob=False) not in config.SECURITY_ACCESS_LEVELS:
         send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x7F))
         return
 
     if security_level % 2 == 0:
-        if security_level - 1 not in config.SECURITY_ACCESS_LEVELS[config.get_session()]:
+        if security_level - 1 not in config.SECURITY_ACCESS_LEVELS[config.get_session(glob=False)]:
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x12))
             gl.SEED = None
             return
@@ -109,7 +109,7 @@ def security_access(pkt):
                 gl.TIME_ENOA_ACTIVATED = time.time()
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x35))
     else:
-        if security_level not in config.SECURITY_ACCESS_LEVELS[config.get_session()]:
+        if security_level not in config.SECURITY_ACCESS_LEVELS[config.get_session(glob=False)]:
             send_msg(UDS()/UDS_NR(requestServiceId=0x27, negativeResponseCode=0x12))
             return
         if gl.SEED is None or not gl.SEED.is_valid() or gl.SEED.level != security_level:

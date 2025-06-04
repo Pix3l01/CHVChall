@@ -12,7 +12,7 @@ ACCESSIBLE_SESSIONS = {1: [3], 2: [3], 3: [1, 2]}
 SECURITY_ACCESS_LEVELS = {2: [9], 3: [1,3]}
 DEFAULT_SESSION = 1
 SESSION_RESET_TIMEOUT = 2
-BOOTLOADER_SWITCH_TIMEOUT = 7
+BOOTLOADER_SWITCH_TIMEOUT = 3
 SEED_REQUEST_TIMEOUT = 7
 SEED_REQUEST_RETRIES = 3
 IFACE = 'vcan0'
@@ -27,7 +27,7 @@ def generate_memory():
     leak = b''
     with open('./leak.bin', 'rb') as f:
         leak = f.read()
-    MEMORY[1337] = b'Did you lock yourself out?\x00' + leak + b'\x00\x00\x00x86:LE:64:gcc'
+    MEMORY[1337] = b'Did you lock yourself out without the keys?\x00' + leak + b'\x00\x00\x00x86:LE:64:gcc'
 
     i = 0
     ma = max(MEMORY)
@@ -42,16 +42,25 @@ def generate_memory():
             i += 1
 
 
-def get_session(to_bytes: bool = False) -> int|bytes:
-    if to_bytes:
-        return DATA_IDs[61746][0]
+def get_session(to_bytes: bool = False, glob: bool = True) -> int|bytes:
+    if glob:
+        import global_stuff as gl
+        session = gl.CURRENT_SESSION.to_bytes(1, 'big')
     else:
-        return int.from_bytes(DATA_IDs[61746][0], 'big')
+        session = DATA_IDs[61746][0]
+    if to_bytes:
+        return session
+    else:
+        return int.from_bytes(session, 'big')
 
 
-def set_session(session: bytes | int) -> None:
+def set_session(session: bytes | int, glob: bool = True) -> None:
     if isinstance(session, int):
         session = int.to_bytes(session, 1, 'big')
+
+    if glob:
+        import global_stuff as gl
+        gl.CURRENT_SESSION = int.from_bytes(session, byteorder='big')
     DATA_IDs[61746] = (session, False, False)
 
 
@@ -61,9 +70,9 @@ def key_check(key, access_level):
     lib = CDLL("./lib.so")
     lib.programming.restype = c_uint64
     lib.extended.restype = c_uint64
-    if get_session() == 2:
+    if get_session(glob=False) == 2:
         gen_key = lib.programming(SEED.seed)
-    elif get_session() == 3:
+    elif get_session(glob=False) == 3:
         gen_key = lib.extended(SEED.seed)
     else:
         return False
