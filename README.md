@@ -32,6 +32,8 @@ Challenge on UDS on CAN
 - [x] Write python code to exploit the vulnerability
   - [x] Memory leak
   - [x] Get flag
-- [ ] Implement instancer
+- [ ] Add description and name
+- [ ] Modify CAN IDs to 0x769 and 0x742
+- [ ] Implement instancer (try with a CAN over IP)
   - [ ] Multiple steps which I'll think about later 
 - [ ] Useless improvements: add jokes, refactor, make it better...

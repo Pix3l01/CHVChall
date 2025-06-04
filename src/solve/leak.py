@@ -3,7 +3,7 @@ from scapy.contrib.isotp import ISOTPNativeSocket
 
 
 def read_by_address(sock: ISOTPNativeSocket):
-    pkt = UDS() / UDS_RMBA(memoryAddressLen=3, memorySizeLen=3, memoryAddress3=0, memorySize3=2225)
+    pkt = UDS() / UDS_RMBA(memoryAddressLen=3, memorySizeLen=3, memoryAddress3=0, memorySize3=2208)
     response = sock.sr1(pkt, verbose=0)
     with open("extracted", "wb") as f:
         f.write(response.dataRecord)
