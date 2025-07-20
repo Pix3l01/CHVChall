@@ -1,0 +1,12 @@
+services:
+  uds-server-remote:
+    build: .
+    restart: 'unless-stopped'
+    command:
+      - remote
+      - vcan0
+    network_mode: host
+    ports:
+      - 4000:4000
+    cpus: 4
+    mem_limit: 4G

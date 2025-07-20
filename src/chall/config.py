@@ -15,7 +15,9 @@ SESSION_RESET_TIMEOUT = 2
 BOOTLOADER_SWITCH_TIMEOUT = 3
 SEED_REQUEST_TIMEOUT = 7
 SEED_REQUEST_RETRIES = 3
-IFACE = 'vcan0'
+IFACE = os.getenv('IFACE')
+if not IFACE:
+    raise ValueError("Environment variable 'IFACE' must be set to the network interface name.")
 TX_ID = 0x7B0
 RX_ID = 0x7D0
 

@@ -1,0 +1,40 @@
+services:
+  uds-server-0:
+    build: .
+    restart: 'unless-stopped'
+    command:
+      - local
+      - vcan0
+    network_mode: host
+    cpus: 1
+    mem_limit: 1G
+
+  uds-server-1:
+    build: .
+    restart: 'unless-stopped'
+    command:
+      - local
+      - vcan1
+    network_mode: host
+    cpus: 1
+    mem_limit: 1G
+
+  uds-server-2:
+    build: .
+    restart: 'unless-stopped'
+    command:
+      - local
+      - vcan2
+    network_mode: host
+    cpus: 1
+    mem_limit: 1G
+
+  uds-server-3:
+    build: .
+    restart: 'unless-stopped'
+    command:
+      - local
+      - vcan3
+    network_mode: host
+    cpus: 1
+    mem_limit: 1G
