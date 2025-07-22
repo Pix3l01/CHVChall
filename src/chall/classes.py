@@ -1,6 +1,8 @@
 import os
 import time
 
+from scapy.contrib.automotive.uds import UDS
+
 class SA_seed():
     def __init__(self, level):
         self.level = level
@@ -15,3 +17,8 @@ class SA_seed():
 
     def __repr__(self):
         return "Seed: {}, Level: {}, Generated: {}, Valid: {}".format(self.seed, self.level, self.generated, self.is_valid())
+
+
+class LocalSocket:
+    def send(self, pkt: UDS):
+        print(bytes(pkt).hex())

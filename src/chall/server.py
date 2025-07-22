@@ -4,13 +4,18 @@ import threading
 
 from scapy.contrib.isotp import ISOTPNativeSocket
 from scapy.contrib.automotive.uds import UDS, UDS_NR
+from scapy.packet import Raw
 
+from classes import LocalSocket
 import config
 import global_stuff as gl
 from services_handler import diagnostic_session_control, ecu_reset, read_data_by_identifier, read_memory_by_address, \
     security_access, write_data_by_identifier, tester_present
 
-sock = ISOTPNativeSocket(config.IFACE, config.TX_ID, config.RX_ID, basecls=UDS, padding=True, fd=False)
+if config.IFACE == 'remote':
+    sock = LocalSocket()
+else:
+    sock = ISOTPNativeSocket(config.IFACE, config.TX_ID, config.RX_ID, basecls=UDS, padding=True, fd=False)
 
 handlers = {0x10: diagnostic_session_control,
             0x11: ecu_reset,
@@ -50,6 +55,7 @@ def inactivity():
 
 def handle_packet(pkt):
     gl.TIME_ELAPSED = 0
+    gl.logger.info("Got packet: %s", pkt.show2(dump=True))
     if pkt[UDS].service in config.SUPPORTED_SERVICES:
         try:
             q.put(pkt, block=False)
@@ -57,9 +63,7 @@ def handle_packet(pkt):
             return
     else:
         pkt = UDS() / UDS_NR(requestServiceId=pkt[UDS].service, negativeResponseCode=0x11)
-        sock = ISOTPNativeSocket(config.IFACE, config.TX_ID, config.RX_ID, basecls=UDS, padding=True, fd=False)
         sock.send(pkt)
-        sock.close()
 
 
 def main():
@@ -67,8 +71,10 @@ def main():
     config.generate_memory()
     threading.Thread(target=worker, daemon=True).start()
     threading.Thread(target=inactivity, daemon=True).start()
-    ISOTPNativeSocket(config.IFACE, config.TX_ID, config.RX_ID, basecls=UDS, padding=True, fd=False).sniff(
-        prn=handle_packet)
+    if config.IFACE != 'remote':
+        ISOTPNativeSocket(config.IFACE, config.TX_ID, config.RX_ID, basecls=UDS, padding=True, fd=False).sniff(
+            prn=handle_packet)
+    sock.send(UDS()/Raw(b'hello'))
 
 if __name__ == '__main__':
     main()
