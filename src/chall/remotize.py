@@ -28,6 +28,7 @@ if __name__ == '__main__':
         a = input()
         try:
             pkt = UDS(bytes.fromhex(a))
+            logger.info(f'Got data: {a}')
             handle_packet(pkt)
         except Exception as e:
             logger.exception(e)
