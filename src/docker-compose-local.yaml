@@ -4,7 +4,7 @@ services:
     restart: 'unless-stopped'
     command:
       - local
-      - vcan0
+      - can0
     network_mode: host
     cpus: 1
     mem_limit: 1G
@@ -14,7 +14,7 @@ services:
     restart: 'unless-stopped'
     command:
       - local
-      - vcan1
+      - can1
     network_mode: host
     cpus: 1
     mem_limit: 1G
@@ -24,7 +24,7 @@ services:
     restart: 'unless-stopped'
     command:
       - local
-      - vcan2
+      - can2
     network_mode: host
     cpus: 1
     mem_limit: 1G
@@ -34,7 +34,7 @@ services:
     restart: 'unless-stopped'
     command:
       - local
-      - vcan3
+      - can3
     network_mode: host
     cpus: 1
     mem_limit: 1G
