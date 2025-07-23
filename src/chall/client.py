@@ -5,31 +5,34 @@ import threading
 from scapy.contrib.automotive.uds import UDS
 from scapy.contrib.isotp import ISOTPNativeSocket
 
-IP = '127.0.0.1'
+IP = '10.0.0.2'
+PORT = 4000
 tcp_sock = None
 
 def send_to_server(packet):
-        print("Send to server:" + bytes(packet).hex())
-        tcp_sock.sendall(bytes(packet).hex().encode())
+        tcp_sock.sendall(bytes(packet).hex().encode() + b'\n')
         
 def tcp_listener():
     try:
         while True:
-            data = tcp_sock.recv(4096)
-            if not data:
-                print("Disconnected from server.")
-                break
-            print("Received from server:", data)
+            data = b''
+            while b'\n' not in data:
+                data += tcp_sock.recv(4096)
 
             # Send received data over CAN
-            if data != b'0068656c6c6f\r\n':
+            if data == b'0068656c6c6f\r\n':
+                print("Communicaion established, ready to proxy the CAN interface")
+            elif data.strip() != b'':
                 can_sock.send(UDS(bytes.fromhex(data.decode().strip())))
+
     except Exception as e:
         print("TCP listener error:", e)
+
     finally:
         tcp_sock.close()
 
 if __name__ == '__main__':
+
     if len(sys.argv) < 2:
         print('Usage: python3 %s <can_interface>' % sys.argv[0])
         exit(1)
@@ -38,8 +41,8 @@ if __name__ == '__main__':
     # Setup TCP connection to server
     tcp_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        tcp_sock.connect(('127.0.0.1', 4000))
-        print("Connected to 127.0.0.1:4000")
+        tcp_sock.connect((IP, PORT))
+        print(f"Connected to {IP}:{PORT}")
     except Exception as e:
         print("Failed to connect to server:", e)
         sys.exit(1)
