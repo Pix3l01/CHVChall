@@ -34,6 +34,8 @@ Challenge on UDS on CAN
   - [x] Get flag
 - [ ] Add description and name
 - [ ] Modify CAN IDs to 0x769 and 0x742
-- [ ] Implement instancer (try with a CAN over IP)
-  - [ ] Multiple steps which I'll think about later 
+- [X] Implement instancer (try with a CAN over IP)
+  - [X] Multiple steps which I'll think about later 
+- [ ] Add socat timeout
+- [ ] Add readme for client and move to handount folder or similar
 - [ ] Useless improvements: add jokes, refactor, make it better...
