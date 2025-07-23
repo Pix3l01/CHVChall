@@ -47,7 +47,7 @@ if __name__ == '__main__':
         print("Failed to connect to server:", e)
         sys.exit(1)
 
-    can_sock = ISOTPNativeSocket(iface, 0x7b0, 0x7d0, basecls=UDS)
+    can_sock = ISOTPNativeSocket(iface, 0x742, 0x769, basecls=UDS)
     # Start TCP listener thread
     t = threading.Thread(target=tcp_listener, daemon=True)
     t.start()

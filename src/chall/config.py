@@ -18,8 +18,8 @@ SEED_REQUEST_RETRIES = 3
 IFACE = os.getenv('IFACE')
 if not IFACE:
     raise ValueError("Environment variable 'IFACE' must be set to the network interface name.")
-TX_ID = 0x7B0
-RX_ID = 0x7D0
+TX_ID = 0x742
+RX_ID = 0x769
 
 GENERATED_MEMORY = []
 

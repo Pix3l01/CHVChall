@@ -3,7 +3,6 @@ import time
 
 from scapy.contrib.automotive.uds import UDS
 
-from global_stuff import logger
 
 class SA_seed():
     def __init__(self, level):
@@ -23,5 +22,4 @@ class SA_seed():
 
 class LocalSocket:
     def send(self, pkt: UDS):
-        logger
         print(bytes(pkt).hex())

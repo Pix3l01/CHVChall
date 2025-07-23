@@ -9,6 +9,6 @@ def read_by_address(sock: ISOTPNativeSocket):
         f.write(response.dataRecord)
 
 
-sock = ISOTPNativeSocket("vcan0", 2000, 1968, basecls=UDS, padding=True, fd=False)
+sock = ISOTPNativeSocket("vcan0", 0x769, 0x742, basecls=UDS, padding=True, fd=False)
 sock.sr1(UDS() / UDS_DSC(diagnosticSessionType=3), verbose=0)
 read_by_address(sock)

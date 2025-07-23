@@ -30,7 +30,7 @@ def extended(seed: bytes) -> int:
 
     return result
 
-sock = ISOTPNativeSocket("vcan0", 2000, 1968, basecls=UDS, padding=True, fd=False)
+sock = ISOTPNativeSocket("vcan0", 0x769, 0x742, basecls=UDS, padding=True, fd=False)
 
 # Change to 3
 sock.sr1(UDS()/UDS_DSC(diagnosticSessionType=3), verbose=0)

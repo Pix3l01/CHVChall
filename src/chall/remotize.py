@@ -7,8 +7,6 @@ from scapy.packet import Raw
 
 from server import main, handle_packet
 
-IFACE = 'vcan0'
-READ_ID = 0x7b0
 
 if __name__ == '__main__':
     logger = logging.getLogger('can2stream')
@@ -23,7 +21,7 @@ if __name__ == '__main__':
     threading.Thread(target=main, daemon=True).start()
 
 
-    logger.info("Ready to send stdin to CAN interface")
+    logger.info("Ready to read from stdin")
     while True:
         a = input()
         try:

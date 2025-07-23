@@ -33,8 +33,7 @@ def worker():
         try:
             handlers[pkt[UDS].service](pkt, sock)
         except Exception as e:
-            # TODO: Use proper logging
-            gl.logger.debug(repr(e), flush=True)
+            gl.logger.debug(repr(e))
             sock.send(UDS() / UDS_NR(requestServiceId=pkt[UDS].service, negativeResponseCode=0x11))
         q.task_done()
 
@@ -55,7 +54,6 @@ def inactivity():
 
 def handle_packet(pkt):
     gl.TIME_ELAPSED = 0
-    gl.logger.info("Got packet: %s", pkt.show2(dump=True))
     if pkt[UDS].service in config.SUPPORTED_SERVICES:
         try:
             q.put(pkt, block=False)
