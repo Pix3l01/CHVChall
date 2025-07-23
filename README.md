@@ -32,10 +32,13 @@ Challenge on UDS on CAN
 - [x] Write python code to exploit the vulnerability
   - [x] Memory leak
   - [x] Get flag
-- [ ] Add description and name
-- [ ] Modify CAN IDs to 0x769 and 0x742
+- [ ] Add description (remember to use the correct IDs) and name
+- [x] Modify CAN IDs to 0x769 and 0x742
 - [X] Implement instancer (try with a CAN over IP)
   - [X] Multiple steps which I'll think about later 
 - [ ] Add socat timeout
-- [ ] Add readme for client and move to handount folder or similar
+- [x] Add readme for client and move to handount folder or similar
+- [ ] Modify ip/hostname and port in client, readme and socat command (once these data are known)
+- [ ] Think of a flag
+- [ ] Better logging, if needed
 - [ ] Useless improvements: add jokes, refactor, make it better...
