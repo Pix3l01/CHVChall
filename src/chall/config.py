@@ -69,6 +69,8 @@ def set_session(session: bytes | int, glob: bool = True) -> None:
 def key_check(key, access_level):
     from global_stuff import SEED
     from ctypes import CDLL, c_uint64
+    if SEED is None:
+        return False
     lib = CDLL("./lib.so")
     lib.programming.restype = c_uint64
     lib.extended.restype = c_uint64

@@ -5,8 +5,8 @@ services:
     command:
       - remote
       - remote
-    network_mode: host
+    # network_mode: host
     ports:
-      - 4000:4000
+      - 4032:4000
     cpus: 4
     mem_limit: 4G

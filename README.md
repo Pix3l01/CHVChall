@@ -63,3 +63,4 @@ Challenge on UDS on CAN
 - [ ] Better logging, if needed
 - [ ] Useless improvements: add jokes, refactor, make it better...
 - [ ] Complete README
+- [ ] Longer waits for security access timeout ?
