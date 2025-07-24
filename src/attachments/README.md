@@ -31,6 +31,6 @@ Once a client connects, the server sends an hexencoded hello message. After that
 
 Only the hexencoded UDS payloads are exchanged (no CAN and ISOTP layers), so you can only communicate through the UDS IDs (which is all you need to solve the challenge)
 
-The end of a message (which can be longer than a single CAN frame) is identified by a new line character (`\n`), if you are implementing you onw client remember to send it, otherwise the server won't reply
+The end of a message (which can be longer than a single CAN frame) is identified by a new line character (`\n`), remember to send it if you are implementing your own client, otherwise the server won't reply
 
 To test the raw TCP communication you can connect straight to the server with `netcat` (`nc 10.0.0.2 4000`), send a simple hexencoded UDS message like the DSC in session 0x1 (`1001`), press enter, and you should get the reply from the server
