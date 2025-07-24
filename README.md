@@ -1,6 +1,26 @@
-# CHV Challenge
+# Utterly Deranged Server
 
-## Idea
+## CarHackingVillage CTF 2025 challenge
+
+TODO: couple of words about ctf
+
+### Description
+
+I’ve developed a super secure UDS server that hackers will never be able to exploit! Prove me wrong by reading DID `0x7A69` and win a big bounty flag. You can talk to the UDS server by using Tx ID `0x769`.
+
+You must solve this challenge on the CHV floor to get the flag, but I provide you an online mirror to write and test your exploit at `domain:port`. In the attachments you'll find a client to connect to the remote instance and a readme explaining how the communication works in case you need/want to implement your own.
+
+### Deploy
+
+TODO
+
+## Solution
+
+TODO
+
+## Other
+
+### Idea
 
 Challenge on UDS on CAN
 1. Recon:
@@ -20,7 +40,7 @@ Challenge on UDS on CAN
     - Do SA and use session 3 algorithm to generate SA key
     - Read flag DID
 
-## ROADMAP
+### ROADMAP
 
 - [x] Port basic UDS emulator
 - [x] Implement vulnerable WDBI
@@ -32,7 +52,7 @@ Challenge on UDS on CAN
 - [x] Write python code to exploit the vulnerability
   - [x] Memory leak
   - [x] Get flag
-- [ ] Add description (remember to use the correct IDs) and name
+- [x] Add description (remember to use the correct IDs) and name
 - [x] Modify CAN IDs to 0x769 and 0x742
 - [X] Implement instancer (try with a CAN over IP)
   - [X] Multiple steps which I'll think about later 
@@ -42,3 +62,4 @@ Challenge on UDS on CAN
 - [ ] Think of a flag
 - [ ] Better logging, if needed
 - [ ] Useless improvements: add jokes, refactor, make it better...
+- [ ] Complete README
