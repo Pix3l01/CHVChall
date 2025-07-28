@@ -59,8 +59,9 @@ Challenge on UDS on CAN
 - [ ] Add socat timeout
 - [x] Add readme for client and move to handount folder or similar
 - [ ] Modify ip/hostname and port in client, readme and socat command (once these data are known)
-- [ ] Think of a flag
+- [x] Think of a flag: DONE, look at CFC document
 - [ ] Better logging, if needed
 - [ ] Useless improvements: add jokes, refactor, make it better...
 - [ ] Complete README
 - [ ] Longer waits for security access timeout ?
+- [ ] Client reconnection system/keepalive
