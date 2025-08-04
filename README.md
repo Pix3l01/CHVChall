@@ -8,7 +8,7 @@ TODO: couple of words about ctf
 
 I’ve developed a super secure UDS server that hackers will never be able to exploit! Prove me wrong by reading DID `0x7A69` and win a big bounty flag. You can talk to the UDS server by using Tx ID `0x769`.
 
-You must solve this challenge on the CHV floor to get the flag, but I provide you an online mirror to write and test your exploit at `domain:port`. In the attachments you'll find a client to connect to the remote instance and a readme explaining how the communication works in case you need/want to implement your own.
+You must solve this challenge on the CHV floor to get the flag, but I provide you an online mirror to write and test your exploit at `52.9.34.196:9999`. In the attachments you'll find a client to connect to the remote instance and a readme explaining how the communication works in case you need/want to implement your own.
 
 ### Deploy
 
@@ -16,7 +16,7 @@ TODO
 
 ## Solution
 
-TODO
+Read the writeup at [src/solve/writeup.md](src/solve/writeup.md)
 
 ## Other
 
@@ -60,8 +60,8 @@ Challenge on UDS on CAN
 - [x] Add readme for client and move to handount folder or similar
 - [x] Modify ip/hostname and port in client, readme and socat command (once these data are known)
 - [x] Think of a flag: DONE, look at CFC document
-- [ ] Better logging, if needed
-- [ ] Useless improvements: add jokes, refactor, make it better...
+- [x] Better logging, if needed -> Don't need it, YOLO
+- [ ] Useless improvements: add jokes, ~~refactor, make it better...~~
 - [ ] Complete README
 - [x] Longer waits for security access timeout
 - [x] Client reconnection system/keepalive: not needed, for now
