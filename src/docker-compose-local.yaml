@@ -5,6 +5,8 @@ services:
     command:
       - local
       - can0
+    environment:
+      - FLAG=CHV{m4mm4_m14!_1_5h0uld-4_c4lL_m4r10_t0_f1x-4_7h15!}
     network_mode: host
     cpus: 1
     mem_limit: 1G
@@ -15,6 +17,8 @@ services:
     command:
       - local
       - can1
+    environment:
+      - FLAG=CHV{m4mm4_m14!_1_5h0uld-4_c4lL_m4r10_t0_f1x-4_7h15!}
     network_mode: host
     cpus: 1
     mem_limit: 1G
@@ -25,6 +29,8 @@ services:
     command:
       - local
       - can2
+    environment:
+      - FLAG=CHV{m4mm4_m14!_1_5h0uld-4_c4lL_m4r10_t0_f1x-4_7h15!}
     network_mode: host
     cpus: 1
     mem_limit: 1G
@@ -35,6 +41,8 @@ services:
     command:
       - local
       - can3
+    environment:
+      - FLAG=CHV{m4mm4_m14!_1_5h0uld-4_c4lL_m4r10_t0_f1x-4_7h15!}
     network_mode: host
     cpus: 1
     mem_limit: 1G

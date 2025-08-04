@@ -8,5 +8,7 @@ services:
     # network_mode: host
     ports:
       - 4032:4000
+    environment:
+      - FLAG=CHV{Congrats! Now go solve it one the CHV floor to get the real flag!}
     cpus: 4
     mem_limit: 4G
