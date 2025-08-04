@@ -56,9 +56,9 @@ Challenge on UDS on CAN
 - [x] Modify CAN IDs to 0x769 and 0x742
 - [X] Implement instancer (try with a CAN over IP)
   - [X] Multiple steps which I'll think about later 
-- [ ] Add socat timeout
+- [x] Add socat timeout. Not putting it for now, hope that people behaves
 - [x] Add readme for client and move to handount folder or similar
-- [ ] Modify ip/hostname and port in client, readme and socat command (once these data are known)
+- [x] Modify ip/hostname and port in client, readme and socat command (once these data are known)
 - [x] Think of a flag: DONE, look at CFC document
 - [ ] Better logging, if needed
 - [ ] Useless improvements: add jokes, refactor, make it better...

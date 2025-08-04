@@ -5,8 +5,8 @@ import threading
 from scapy.contrib.automotive.uds import UDS
 from scapy.contrib.isotp import ISOTPNativeSocket
 
-IP = '10.0.0.2'
-PORT = 4000
+IP = '52.9.34.196'
+PORT = 9999
 tcp_sock = None
 
 def send_to_server(packet):
