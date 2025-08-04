@@ -63,5 +63,5 @@ Challenge on UDS on CAN
 - [ ] Better logging, if needed
 - [ ] Useless improvements: add jokes, refactor, make it better...
 - [ ] Complete README
-- [ ] Longer waits for security access timeout ?
-- [ ] Client reconnection system/keepalive
+- [x] Longer waits for security access timeout
+- [x] Client reconnection system/keepalive: not needed, for now
