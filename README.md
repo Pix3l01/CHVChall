@@ -61,7 +61,7 @@ Challenge on UDS on CAN
 - [x] Modify ip/hostname and port in client, readme and socat command (once these data are known)
 - [x] Think of a flag: DONE, look at CFC document
 - [x] Better logging, if needed -> Don't need it, YOLO
-- [ ] Useless improvements: add jokes, ~~refactor, make it better...~~
+- [x] Useless improvements: add jokes, ~~refactor, make it better...~~ -> only bad jokes 'cause I'm lazy 
 - [ ] Complete README
 - [x] Longer waits for security access timeout
 - [x] Client reconnection system/keepalive: not needed, for now

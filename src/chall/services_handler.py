@@ -179,7 +179,7 @@ def write_data_by_identifier(pkt, sock):
         sock.send(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x7F))
         return
 
-    if did not in config.DIDs_PER_SESSION[config.get_session()]:
+    if did not in config.DIDs_PER_SESSION[config.get_session()] or did in config.UNWRITEABE_DIDs:  # don't want people to modify flag
         sock.send(UDS()/UDS_NR(requestServiceId=0x2E, negativeResponseCode=0x31))
         return
 

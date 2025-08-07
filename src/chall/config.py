@@ -4,8 +4,38 @@ QUEUE_SIZE = 2
 
 DSC_SESSIONS = {1, 2, 3}
 SUPPORTED_SERVICES = {0x10, 0x11, 0x22, 0x23, 0x27, 0x2E, 0x3E}
-DATA_IDs = {1337:(b'Not here', False, True), 31337:(os.getenv('FLAG', 'flag{tbd}').encode(), True, True), 61746: (b'\x01',False, False), 61840: (b'DRIVESEC_CA(R)N\'T', False, False),61842:(b'SW:0.0.0.1', False, True), 61844:(b'HW:0.0.-1', False, True)}
-DIDs_PER_SESSION = {1: [1337, 61746, 61840, 61842, 61844], 2: [1337, 31337, 61746, 61842, 61844], 3: [1337, 61746, 61836, 61842, 61844]}
+# format: id (int) -> tuple(content (bytes), is SA needed to read (bool), is SA needed to modify (bool))
+DATA_IDs = {
+    1337:(b'Not here', False, True), 
+    31337:(os.getenv('FLAG', 'flag{tbd}').encode(), True, True), 
+    61746: (b'\x01',False, False), 
+    61808:(b'Why do pistons make such bad employees? ', False, True),
+    61809:(b'They only work after they are fired', False, True),
+    61810:(b'My wife gave birth to our son in the car on our way to the hospital.', False, True),
+    61811:(b'We named him Carson.', False, True),
+    61812:(b'What\'s the best pickup line?', False, True),
+    61813:(b'Wanna hang out in my bed?', False, True),
+    61814:(b'How did the hacker get away from the FBI? ', False, True),
+    61815:(b'He ransomware ', False, True),
+    61816:(b'When I die I want to go peacefully in my sleep like my grandfather.', False, True),
+    61817:(b'Not screaming and crying like the passengers in the car he was driving', False, True),
+    61818:(b'Why did the chicken cross the road?', False, True),
+    61819:(b'To prove to the possum it could be done.', False, True),
+    61820:(b'What kind of car does a sheep drive?', False, True),
+    61821:(b'A Lamb-orghini.', False, True),
+    61822:(b'What happens when you leave your ADHD medication in your Ford Fiesta?', False, True),
+    61823:(b'It turns into a Ford Focus.', False, True),
+    61824:(b'Sorry not sorry for the bad jokes', False, True),
+    61840: (b'DRIVESEC_CA(R)N\'T', False, False),
+    61842:(b'SW:0.0.0.1', False, True), 
+    61844:(b'HW:0.0.-1', False, True)
+    }
+DIDs_PER_SESSION = {
+    1: [1337, 61746, 61808, 61809, 61810, 61811, 61812, 61813, 61814, 61815, 61816, 61817, 61818, 61819, 61820, 61821, 61822, 61823, 61824, 61840, 61842, 61844], 
+    2: [1337, 31337, 61746,61808, 61809, 61810, 61811, 61812, 61813, 61814, 61815, 61816, 61817, 61818, 61819, 61820, 61821, 61822, 61823, 61824, 61842, 61844], 
+    3: [1337, 61746, 61808, 61809, 61810, 61811, 61812, 61813, 61814, 61815, 61816, 61817, 61818, 61819, 61820, 61821, 61822, 61823, 61824, 61836, 61842, 61844]
+    }
+UNWRITEABE_DIDs = [31337]
 MEMORY = {0: b'\x90'*256 + b'Is this a leak? Should we call a plumber? ', 2200: b'Drivesec'}
 DSC_SERVICES = {1:{0x10, 0x22, 0x3E}, 2:{0x10, 0x11, 0x22, 0x23, 0x27, 0x2E, 0x3E}, 3:{0x10, 0x11, 0x22, 0x23, 0x27, 0x2E, 0x3E}}
 ACCESSIBLE_SESSIONS = {1: [3], 2: [3], 3: [1, 2]}
