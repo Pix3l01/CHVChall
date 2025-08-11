@@ -2,7 +2,7 @@
 
 ## CarHackingVillage CTF 2025 challenge
 
-TODO: couple of words about ctf
+Capture the flag competiotion of the Car Hacking Village @ DEFCON 33, mainly focused on automotive systems security.
 
 ### Description
 
@@ -12,7 +12,13 @@ You must solve this challenge on the CHV floor to get the flag, but I provide yo
 
 ### Deploy
 
-TODO
+This challenge has both a local version that needs a Linux socketCAN interface to work and an online version. The docker compose files are provided for both version. Alternatively, the challenge can be run without containerization by looking  at the commands in [run.sh](src/chall/run.sh), given that the system package `can-utils` (and `socat` for the remote version) and the python module `scapy` are installed.
+
+#### Local version
+To create a local virtual can interface look at the instruction in the client. In the file [docker-compose-local.yaml](src/docker-compose-local.yaml) modify `can0`in the `command` section with the name of your local CAN interface and then start the challenge with the command: `docker compose -f path/to/docker-compose-local.yaml up --build -d` 
+
+#### Remote version
+Start the challenge with the command: `docker compose -f path/to/docker-compose-remote.yaml up --build -d`. The challenge will be available at `localhost:9999`
 
 ## Solution
 
@@ -62,6 +68,6 @@ Challenge on UDS on CAN
 - [x] Think of a flag: DONE, look at CFC document
 - [x] Better logging, if needed -> Don't need it, YOLO
 - [x] Useless improvements: add jokes, ~~refactor, make it better...~~ -> only bad jokes 'cause I'm lazy 
-- [ ] Complete README
+- [x] Complete README
 - [x] Longer waits for security access timeout
 - [x] Client reconnection system/keepalive: not needed, for now

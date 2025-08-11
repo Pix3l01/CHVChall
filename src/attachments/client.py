@@ -23,7 +23,11 @@ def tcp_listener():
             if data == b'0068656c6c6f\r\n':
                 print("Communicaion established, ready to proxy the CAN interface")
             elif data.strip() != b'':
-                can_sock.send(UDS(bytes.fromhex(data.decode().strip())))
+                try: 
+                    can_sock.send(UDS(bytes.fromhex(data.decode().strip())))
+                # If something happens don't crash. Shouldn't be a big problem (?)
+                except Exception as e:
+                    pass
 
     except Exception as e:
         print("TCP listener error:", e)

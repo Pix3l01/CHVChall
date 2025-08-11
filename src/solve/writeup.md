@@ -8,7 +8,7 @@ The main takeaways are the following:
 1. There are 3 sessions (1,2 & 3)
 2. Session 1 can only access session 3, session 2 can only access session 3, and session 3 can access both session 1 and 2
 3. The flag DID can only be read in session 2 after a security access
-4. DID 0xF132 probably holds the active session and can be modified in sessions 2 & 3
+4. DID 0xF132 probably holds the active session and can be modified in sessions 2 & 3. (Why 0xf132 insted of the standard 0xf180? Cause a bit of guessing is always nice)
 5. In session 3, the service 0x23 ReadMemoryByAddress can be called without authentication
 
 ## Memory leak
